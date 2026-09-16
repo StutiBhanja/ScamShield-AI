@@ -53,7 +53,8 @@ python test_webhook.py
 ```
 
 ## 🎥 Demo
-*(<img width="1331" height="765" alt="image" src="https://github.com/user-attachments/assets/c839c087-ba7c-42fe-a140-55fce26681f1" />
+*(<img width="1600" height="900" alt="WhatsApp Image 2026-09-16 at 10 18 44 PM" src="https://github.com/user-attachments/assets/1961cab3-8b58-46fd-be2a-9a1efe240791" />
+
 )*
 
 ## ✨ What Makes This Project Unique
