@@ -53,19 +53,12 @@ python test_webhook.py
 ```
 
 ## 🎥 Demo
-*(Add a screenshot of your n8n canvas here, plus a screenshot of the terminal output showing `Status Code: 200` and the returned AI response.)*
+*(<img width="1331" height="765" alt="image" src="https://github.com/user-attachments/assets/c839c087-ba7c-42fe-a140-55fce26681f1" />
+)*
 
 ## ✨ What Makes This Project Unique
 - A genuine multi-agent pipeline — not a single LLM prompt dressed up as "multi-agent." Each agent has a distinct, non-overlapping responsibility.
 - Tackles a real, everyday risk that affects non-technical users.
 - Structured hand-off of information between agents, so each stage builds on the last rather than repeating it.
 
-## 🙏 Acknowledgements
-**Trainer:** _[Add your trainer's name]_
-**Mentor:** _[Add your mentor's name]_
 
-Special thanks to Innomatics Research Labs and:
-- 👨‍💼 **Founder:** Vishwanath Nyathani Sir
-- 👩‍💼 **CEO & Co-founder:** Kalpana Katiki Reddy Mam
-- 📋 **Program Manager:** Raghu Ram Aduri Sir
-- **CTO:** Kanav Bansal Sir
