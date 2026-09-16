@@ -210,7 +210,7 @@ All four AI agents execute successfully as part of the workflow.
 Import the following workflow file into your n8n instance:
 
 ```text
-ScamShield-AI-Workflow.json
+Import ScamShield-AI-Workflow.json into your n8n instance
 ```
 
 ### 2. Configure Gemini Credentials
