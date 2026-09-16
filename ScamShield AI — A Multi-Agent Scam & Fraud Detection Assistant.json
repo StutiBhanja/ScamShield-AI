@@ -1,0 +1,275 @@
+{
+  "name": "ScamShield AI — A Multi-Agent Scam & Fraud Detection Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "8a6465c3-634d-4e26-ab94-0f793649cf5d",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -688,
+        -96
+      ],
+      "id": "82b74ba5-7d67-4928-90e5-f3237fab5c11",
+      "name": "ScamShield Input",
+      "webhookId": "8a6465c3-634d-4e26-ab94-0f793649cf5d"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "YouYou are Agent 1 of ScamShield AI, called the Message Intelligence Analyzer.\n\nAnalyze the suspicious message provided by the user.\n\nExtract:\n1. message_type\n2. sender_or_organization\n3. main_request\n4. money_requested\n5. personal_information_requested\n6. urgency_or_pressure\n7. links_or_contact_details\n8. claims_or_promises\n9. suspicious_elements\n\nDo not make the final scam decision.\nDo not give a risk score.\nYour job is only to analyze and extract information from the message.\n\nReturn the result clearly. "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -512,
+        -96
+      ],
+      "id": "a4266ec8-6c1d-4911-a6e1-0f62d7b6b32d",
+      "name": "Message Intelligence Analyzer"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.6-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -512,
+        80
+      ],
+      "id": "2d201a79-24fa-4e62-a660-a86c3593bbf6",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "l9lAAkahuCm8DkpH",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the output from Agent 1 and identify the scam patterns and red flags present.\n\nAgent 1 output:\n{{ $json.output }}",
+        "options": {
+          "systemMessage": "You are Agent 2 of ScamShield AI, called the Scam Pattern Detector.\n\nYour job is to examine the analysis produced by Agent 1 and identify specific scam patterns and red flags.\n\nLook for patterns such as:\n- Urgency or pressure\n- Impersonation\n- Financial pressure\n- Advance payment requests\n- Requests for OTP, passwords or credentials\n- Requests for personal information\n- Fake rewards or prizes\n- Fake job offers\n- Suspicious links\n- Threats or intimidation\n- Unrealistic promises\n\nFor each detected pattern, briefly explain why it is suspicious.\n\nDo not give the final risk score.\nDo not make the final safety recommendation.\n\nReturn:\n1. detected_scam_patterns\n2. red_flags\n3. explanation"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -240,
+        -96
+      ],
+      "id": "eb749250-1da5-43b2-9003-c10226b3d72a",
+      "name": "Scam Pattern Detector"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.6-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -240,
+        80
+      ],
+      "id": "257d2e11-a1c0-42a8-b851-2803fb5788f5",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "l9lAAkahuCm8DkpH",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the scam-pattern analysis produced by Agent 2.\n\nAgent 2 output:\n{{ $json.output }}",
+        "options": {
+          "systemMessage": "You are Agent 3 of ScamShield AI, called the Risk Assessment Agent.\n\nYour job is to assess the risk based on the scam patterns and red flags identified by Agent 2.\n\nDetermine:\n1. risk_score: a number from 0 to 100\n2. risk_level: LOW, MEDIUM, HIGH, or CRITICAL\n3. scam_category\n4. confidence\n5. reason_for_score\n\nUse this general scale:\n0-24 = LOW\n25-49 = MEDIUM\n50-74 = HIGH\n75-100 = CRITICAL\n\nBase your assessment only on the evidence provided by Agent 2.\n\nDo not provide safety advice yet.\nDo not invent facts that are not present in the analysis.\n\nReturn the assessment clearly."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        16,
+        -96
+      ],
+      "id": "0536fa04-6524-410c-9bc6-143bf2583832",
+      "name": "Risk Assessment"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.6-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        16,
+        64
+      ],
+      "id": "f026b5f6-03f9-481b-b732-fcc577eb9636",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "l9lAAkahuCm8DkpH",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create a safety recommendation based on Agent 3's risk assessment.\n\nAgent 3 output:\n{{ $json.output }}",
+        "options": {
+          "systemMessage": "You are Agent 4 of ScamShield AI, called the Safety Advisor.\n\nYour job is to turn the risk assessment into clear, practical safety advice for the user.\n\nBased on the risk assessment, provide:\n\n1. risk_summary\n2. why_the_message_is_risky\n3. what_not_to_do\n4. what_to_do_next\n5. verification_steps\n\nDo not change the risk score or risk level.\nDo not invent facts that are not present in the previous analysis.\nGive practical, concise, user-friendly advice.\n\nFor financial scams, consider advising the user not to send money or share OTPs, passwords, PINs, or banking credentials, and to independently verify the sender through official channels."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        288,
+        -96
+      ],
+      "id": "9242480c-2cc9-48df-8dd9-2b70a88553bc",
+      "name": "Safety Advisor",
+      "retryOnFail": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.6-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        288,
+        80
+      ],
+      "id": "2b5cf711-6c45-44ad-8c57-6d8fd3ff8022",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "l9lAAkahuCm8DkpH",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "ScamShield Input": {
+      "main": [
+        [
+          {
+            "node": "Message Intelligence Analyzer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Message Intelligence Analyzer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message Intelligence Analyzer": {
+      "main": [
+        [
+          {
+            "node": "Scam Pattern Detector",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Scam Pattern Detector",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scam Pattern Detector": {
+      "main": [
+        [
+          {
+            "node": "Risk Assessment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Risk Assessment",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Risk Assessment": {
+      "main": [
+        [
+          {
+            "node": "Safety Advisor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Safety Advisor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "9153817f-6b1f-4404-b031-0f5311ef521a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e67b63ff3765b257536c2766e270fa7a6e9fd68b03beacc12b30393ea1c6f5c4"
+  },
+  "nodeGroups": [],
+  "id": "eqtfVl2bnZeUNAa3",
+  "tags": []
+}
