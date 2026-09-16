@@ -53,9 +53,20 @@ python test_webhook.py
 ```
 
 ## 🎥 Demo
-*(<img width="1600" height="900" alt="WhatsApp Image 2026-09-16 at 10 18 44 PM" src="https://github.com/user-attachments/assets/1961cab3-8b58-46fd-be2a-9a1efe240791" />
 
-)*
+### n8n Workflow
+
+The complete ScamShield AI workflow consists of four specialized AI agents:
+
+User Message → Message Intelligence → Scam Pattern Detector → Risk Assessment → Safety Advisor → Final Result
+
+### Successful Execution
+
+The workflow was successfully executed through n8n, with all four AI agents processing the input sequentially.
+
+### Sample Analysis
+
+A test message is sent through the webhook and processed by all four agents. The final output contains the identified scam pattern, risk level, and recommended safety actions.
 
 ## ✨ What Makes This Project Unique
 - A genuine multi-agent pipeline — not a single LLM prompt dressed up as "multi-agent." Each agent has a distinct, non-overlapping responsibility.
